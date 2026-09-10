@@ -518,6 +518,20 @@ const SR_STYLE='position:absolute;width:1px;height:1px;padding:0;margin:-1px;ove
 /* 相對層級 → 實際 h 標籤。0 = 內文起始層級（預設 H3） */
 function HL(off){ return Math.min(6, (state.baseLevel||3) + (off||0)); }
 
+/* 表格合併記號 → 每格 {text, cs, rs}；被合併掉的位置為 null。
+   「<」併入左格、「^」併入上格；thead 與 tbody 不能跨區合併 */
+function tableSpans(g,hasHead){
+  const own=g.map(r=>r.map(()=>null));
+  const cells=g.map(r=>r.map(()=>null));
+  g.forEach((r,y)=>r.forEach((v,x)=>{
+    const canUp = y>0 && !(hasHead && y===1);
+    const o = v==='<' && x>0 ? own[y][x-1] : v==='^' && canUp ? own[y-1][x] : null;
+    if(o){ own[y][x]=o; o.cs=Math.max(o.cs,x-o.x+1); o.rs=Math.max(o.rs,y-o.y+1); return; }
+    own[y][x]=cells[y][x]={x,y,cs:1,rs:1,text:(v==='<'||v==='^')?'':v};
+  }));
+  return cells;
+}
+
 function blockHTML(b){
   const d=b.data;
   switch(b.type){
@@ -566,24 +580,36 @@ function blockHTML(b){
     }
 
     case 'table':{
-      const hs=(d.headers||[]).filter(h=>String(h).trim());
-      const rows=(d.rows||[]).filter(r=>r.some(c=>String(c).trim()));
+      const clean=r=>(r||[]).map(c=>String(c??'').trim());
+      const head=clean(d.headers);
+      // 空白表頭格要保留，否則整列往左錯位；只有整列都沒字才不輸出 thead
+      const hasHead=(d.scope==='col'||d.scope==='both') && head.some(c=>c && c!=='<' && c!=='^');
+      const body=(d.rows||[]).map(clean).filter(r=>r.some(Boolean));
+      const grid=hasHead ? [head].concat(body) : body;
+      const W=Math.max(0,...grid.map(r=>r.length));
+      const cells=tableSpans(grid.map(r=>r.concat(Array(W-r.length).fill(''))), hasHead);
+      const tr=(r,inHead)=>{
+        let s='    <tr>\n';
+        r.forEach((c,x)=>{
+          if(!c) return; // 被合併掉的格子
+          const sp=(c.cs>1?' colspan="'+c.cs+'"':'')+(c.rs>1?' rowspan="'+c.rs+'"':'');
+          if(inHead){
+            // 沒有文字的表頭（如左上角空格）輸出 td，避免產生空的 th
+            s += c.text
+              ? '      <th scope="'+(c.cs>1?'colgroup':'col')+'"'+sp+at('th')+'>'+esc(c.text)+'</th>\n'
+              : '      <td'+sp+at('th')+'></td>\n';
+          }else if(x===0 && (d.scope==='row'||d.scope==='both')){
+            s += '      <th scope="'+(c.rs>1?'rowgroup':'row')+'"'+sp+at('th')+'>'+esc(c.text)+'</th>\n';
+          }else{
+            s += '      <td'+sp+at('td')+'>'+esc(c.text)+'</td>\n';
+          }
+        });
+        return s+'    </tr>\n';
+      };
       let out='<table'+at('tbl')+'>\n';
       if(d.caption) out+='  <caption'+at('cap')+'>'+esc(d.caption)+'</caption>\n';
-      if(hs.length && (d.scope==='col'||d.scope==='both')){
-        out+='  <thead>\n    <tr>\n'+hs.map(h=>'      <th scope="col"'+at('th')+'>'+esc(h)+'</th>').join('\n')+'\n    </tr>\n  </thead>\n';
-      }
-      out+='  <tbody>\n';
-      rows.forEach(r=>{
-        out+='    <tr>\n';
-        r.forEach((c,i)=>{
-          const isRowHd = (i===0 && (d.scope==='row'||d.scope==='both'));
-          out += isRowHd
-            ? '      <th scope="row"'+at('th')+'>'+esc(c)+'</th>\n'
-            : '      <td'+at('td')+'>'+esc(c)+'</td>\n';
-        });
-        out+='    </tr>\n';
-      });
+      if(hasHead) out+='  <thead>\n'+tr(cells[0],true)+'  </thead>\n';
+      out+='  <tbody>\n'+cells.slice(hasHead?1:0).map(r=>tr(r,false)).join('');
       return out+'  </tbody>\n</table>';
     }
 
@@ -788,6 +814,8 @@ function audit(){
     if(b.type==='table'){
       if(!d.caption.trim()) add('e',b.id,'表格缺少標題（caption），請說明這張表在講什麼。');
       if(!(d.headers||[]).filter(h=>String(h).trim()).length && d.scope!=='row') add('e',b.id,'表格沒有標題列，資料表必須有 th。');
+      const hd=(d.headers||[]).map(h=>String(h).trim());
+      if(d.scope!=='row' && hd.some(Boolean) && hd.some(h=>!h)) add('w',b.id,'標題列有空白欄位（常見於 Word 表格左上角），建議補上欄名，例如「序號」，讓報讀軟體能唸出這一欄的意義。');
       const w=(d.headers||[]).length;
       if(w && (d.rows||[]).some(r=>r.length!==w)) add('w',b.id,'各列的欄位數不一致，可能會導致報讀錯位。');
       if(AAA && d.scope==='col' && (d.rows||[]).length>6) add('w',b.id,'AAA：資料列較多時，建議把第一欄也設為列標題（兩者皆是）。');
@@ -1217,8 +1245,8 @@ function renderInspector(){
     case 'table':
       h+=f('表格標題 caption','caption',d.caption,'text','必填，說明整張表在講什麼。');
       h+=sel2('標題方向','scope',d.scope,[['col','第一列是標題'],['row','第一欄是標題'],['both','兩者皆是']],'決定 th 的 scope 屬性。');
-      h+=ta('標題欄位','headers',(d.headers||[]).join(' | '),'用「|」分隔，例如：項目 | 內容','cells',2);
-      h+=ta('表格內容','rows',(d.rows||[]).map(r=>r.join(' | ')).join('\n'),'一行一列，欄位用「|」分隔。','rows',6);
+      h+=ta('標題欄位','headers',(d.headers||[]).join(' | '),'用「|」分隔，例如：項目 | 內容。要合併儲存格時，在被併入的格子填「<」（併入左格）。','cells',2);
+      h+=ta('表格內容','rows',(d.rows||[]).map(r=>r.join(' | ')).join('\n'),'一行一列，欄位用「|」分隔。合併儲存格：填「<」併入左格、填「^」併入上格。','rows',6);
       break;
     case 'link':
       h+=sel2('排列方式','align',d.align,[['left','靠左'],['center','置中']],'置中效果需選用「內嵌樣式」或「類別」輸出模式。');
@@ -1519,6 +1547,35 @@ $('#styleTab').addEventListener('input',e=>{
 const BULLET=/^\s*([\u2022\u25cf\u25aa\u30fb\u00b7\-\*\u25e6\u2013])\s+/;
 const NUMBER=/^\s*(\d+|[（(]?\d+[）)]|[一二三四五六七八九十]+[、.])\s*[、.]?\s+/;
 
+/* 儲存格文字：多個段落／換行補空白避免黏字；「|」是編輯器的欄位分隔符、「<」「^」是合併記號，一律改全形 */
+function cellText(td){
+  td.querySelectorAll('br').forEach(n=>n.replaceWith(' '));
+  td.querySelectorAll('p,div,li').forEach(n=>n.append(' '));
+  return (td.textContent||'').replace(/\s+/g,' ').trim()
+    .replace(/\|/g,'｜').replace(/^<$/,'＜').replace(/^\^$/,'＾');
+}
+
+/* Word 表格 → 方正格線。合併儲存格改寫成記號：「<」＝併入左格、「^」＝併入上格 */
+function wordTableGrid(table){
+  const trs=Array.from(table.rows); // 只取本表的列，不含巢狀表格
+  const g=trs.map(()=>[]);
+  trs.forEach((tr,y)=>{
+    let x=0;
+    Array.from(tr.cells).forEach(td=>{
+      // Word 貼上時為了對齊欄數補的隱形格
+      if(/mso-cell-special:\s*placeholder/i.test(td.getAttribute('style')||'')) return;
+      while(g[y][x]!==undefined) x++; // 跳過被上方 rowspan 佔住的位置
+      const cs=Math.max(1,td.colSpan||1);
+      const rs=Math.min(Math.max(1,td.rowSpan||1), trs.length-y);
+      const text=cellText(td);
+      for(let j=0;j<rs;j++) for(let k=0;k<cs;k++) g[y+j][x+k] = j ? '^' : k ? '<' : text;
+      x+=cs;
+    });
+  });
+  const W=Math.max(0,...g.map(r=>r.length));
+  return g.map(r=>Array.from({length:W},(_,i)=>r[i]??'')).filter(r=>r.some(Boolean));
+}
+
 function htmlToBlocks(html){
   const doc=new DOMParser().parseFromString(html,'text/html');
   doc.querySelectorAll('style,script,meta,link,o\\:p').forEach(n=>n.remove());
@@ -1567,14 +1624,12 @@ function htmlToBlocks(html){
       }
       if(tag==='TABLE'){
         flush();
-        const trs=Array.from(el.querySelectorAll('tr'));
-        if(!trs.length) return;
-        const grid=trs.map(tr=>Array.from(tr.children).map(td=>(td.textContent||'').replace(/\u00a0/g,' ').trim()));
-        const hasTh=trs[0].querySelector('th');
+        const grid=wordTableGrid(el);
+        if(!grid.length) return;
         const headers=grid[0];
         const rows=grid.slice(1);
         out.push({id:nid(),type:'table',data:{
-          caption:'', headers, rows:rows.length?rows:[headers.map(()=>'')], scope:hasTh?'col':'col'
+          caption:'', headers, rows:rows.length?rows:[headers.map(()=>'')], scope:'col'
         }});
         return;
       }

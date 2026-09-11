@@ -1,0 +1,136 @@
+/* ========================================
+   使用說明頁（guide.html）
+   ======================================== */
+:root{
+  --ink:#16232B; --ink-2:#3D4E58; --line:#D7DEDC; --shell:#EDF1F0; --paper:#fff;
+  --accent:#0E6E63; --accent-dk:#0A544B; --accent-soft:#E4F0EE;
+  --warn:#8A5A00; --warn-soft:#FFF6E0;
+  --mark:#B45309; /* 與截圖上的橘色編號同色 */
+  --r:10px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:1rem}
+body{
+  margin:0; background:var(--shell); color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.8;
+}
+:focus-visible{outline:3px solid var(--mark);outline-offset:2px;border-radius:4px}
+a{color:var(--accent-dk);text-underline-offset:.2em;transition:color .18s}
+a:hover{color:var(--ink)}
+a:active{color:#07403A}
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--ink);color:#fff;padding:.6rem 1rem}
+.skip:focus{left:8px;top:8px;color:#fff}
+
+/* ========================================
+   頁首
+   ======================================== */
+.guide-hd{background:var(--ink);color:#fff}
+.guide-hd__inner{max-width:1200px;margin:0 auto;padding:.7rem 1.125rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.guide-hd__brand{margin:0;font-weight:800;display:flex;align-items:center;gap:.5rem}
+.guide-hd__brand i{color:#7FD1C4}
+.guide-hd__back{border:1px solid rgba(255,255,255,.4);color:#fff;white-space:nowrap}
+.guide-hd__back:hover{background:rgba(255,255,255,.14);color:#fff;border-color:#fff}
+.guide-hd__back:active{background:rgba(255,255,255,.26);color:#fff}
+/* Bootstrap 的 .btn:focus-visible 會移除 outline，深色底上需補回明顯的焦點框 */
+.guide-hd__back:focus-visible{outline:3px solid #F6C453;outline-offset:2px;color:#fff}
+
+/* ========================================
+   版面：左側目錄＋右側內容
+   ======================================== */
+.guide{max-width:1200px;margin:0 auto;padding:1.5rem 1.125rem 2rem;display:grid;gap:1.5rem}
+.guide-toc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.1rem}
+.guide-toc__title{font-size:.9rem;font-weight:700;color:var(--ink-2);margin:0 0 .4rem}
+.guide-toc__list{margin:0;padding-left:1.4em;font-size:.95rem;line-height:2}
+.guide-main{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1.5rem 1.25rem 2rem;min-width:0}
+.guide-title{font-size:2rem;font-weight:800;margin:0 0 .5rem}
+.guide-lead{font-size:1.1rem;color:var(--ink-2);margin:0}
+
+.guide-sec{border-top:1px solid var(--line);padding-top:2rem;margin-top:2rem}
+.guide-sec h2{font-size:1.5rem;font-weight:800;margin:0 0 1rem;padding-left:.6rem;border-left:5px solid var(--accent)}
+.guide-sec h3{font-size:1.2rem;font-weight:700;margin:2rem 0 .6rem;color:var(--accent-dk)}
+.guide-sec h4{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .5rem}
+.guide-ico{color:var(--accent-dk)}
+
+/* ========================================
+   快速上手步驟：CSS counter 顯示大號序號
+   ======================================== */
+.guide-steps{list-style:none;counter-reset:step;padding:0;margin:0;display:grid;gap:.75rem}
+.guide-steps__item{counter-increment:step;position:relative;padding:.9rem 1rem .9rem 3.6rem;border:1px solid var(--line);border-radius:var(--r);background:#FAFCFB}
+.guide-steps__item::before{
+  content:counter(step); position:absolute; left:1rem; top:.95rem;
+  width:1.9rem; height:1.9rem; border-radius:50%; background:var(--accent); color:#fff;
+  font-weight:700; line-height:1.9rem; text-align:center;
+}
+
+/* 截圖區域編號說明，序號與截圖上的橘色圓圈同色 */
+.guide-legend{padding-left:1.6em}
+.guide-legend li::marker{font-weight:700;color:var(--mark)}
+
+/* ========================================
+   截圖
+   ======================================== */
+.guide-fig{margin:1.2rem 0 1.5rem}
+.guide-fig img{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 16px rgba(22,35,43,.08)}
+.guide-fig figcaption{font-size:.875rem;color:var(--ink-2);margin-top:.5rem;text-align:center}
+/* 面板、手機等窄截圖限制寬度，避免被放大到糊掉 */
+.guide-fig--narrow img{max-width:min(100%,400px)}
+
+/* ========================================
+   提示方塊：標題文字標明類型，不只靠顏色區分
+   ======================================== */
+.guide-note{border:1px solid var(--line);border-left:6px solid var(--accent);background:var(--accent-soft);border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0}
+.guide-note p{margin:0}
+.guide-note p + p,.guide-note ul{margin:.4rem 0 0}
+.guide-note__title{font-weight:700;display:flex;gap:.45rem;align-items:baseline}
+.guide-note--warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.guide-note--warn .guide-note__title{color:var(--warn)}
+
+/* ========================================
+   表格與程式碼
+   ======================================== */
+.guide-table{overflow-x:auto;margin:1rem 0 1.5rem}
+.guide-table table{margin:0;min-width:520px;font-size:.95rem}
+.guide-table caption{caption-side:top;color:var(--ink);font-weight:700;padding:0 0 .5rem}
+/* 權重需高於 Bootstrap 的 .table>:not(caption)>*>* 才能蓋掉表頭底色 */
+.guide-table th[scope="col"]{background:#F1F4F4}
+.guide-table th[scope="row"]{white-space:nowrap}
+.guide-main code{color:var(--accent-dk);background:var(--accent-soft);padding:.1em .35em;border-radius:4px;font-size:.9em}
+.guide-code{background:#12242C;color:#DDECE9;border-radius:8px;padding:.9rem 1rem;font-size:.9rem;line-height:1.7;overflow-x:auto;margin:.4rem 0 1rem}
+.guide-code code{color:inherit;background:none;padding:0;font-size:inherit}
+.guide-label{font-weight:700;margin:1rem 0 0}
+
+/* ========================================
+   常見問題
+   ======================================== */
+.guide-faq{border:1px solid var(--line);border-radius:8px;margin-bottom:.6rem;background:#fff}
+.guide-faq summary{cursor:pointer;font-weight:700;padding:.75rem 1rem;border-radius:8px;transition:background .18s}
+.guide-faq summary:hover{background:var(--accent-soft)}
+.guide-faq summary:active{background:#D2E7E3}
+.guide-faq[open] summary{border-bottom:1px solid var(--line);border-radius:8px 8px 0 0}
+.guide-faq p{margin:0;padding:.75rem 1rem .9rem}
+
+.guide-ft{max-width:1200px;margin:0 auto;padding:0 1.125rem 2.5rem;color:var(--ink-2);font-size:.9rem;text-align:center}
+.guide-ft p{margin:0}
+
+/* ========================================
+   斷點
+   ======================================== */
+@media (min-width:768px){
+  .guide-main{padding:2.5rem 3rem 3rem}
+}
+@media (min-width:992px){
+  .guide{grid-template-columns:230px minmax(0,1fr);gap:2.5rem;align-items:start}
+  .guide-toc{position:sticky;top:1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .guide-faq summary,a{transition:none}
+}
+@media print{
+  .guide-hd,.guide-toc,.skip{display:none}
+  body{background:#fff}
+  .guide{display:block;padding:0}
+  .guide-main{border:0;padding:0}
+  .guide-fig,.guide-faq{break-inside:avoid}
+}

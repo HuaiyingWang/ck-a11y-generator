@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使用說明｜無障礙內容產生器</title>
+<meta name="description" content="無障礙內容產生器操作說明：從範本或 Word 開始編排內容、修正無障礙檢測問題，並把原始碼貼到網站後台。">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+
+<header class="guide-hd">
+  <div class="guide-hd__inner">
+    <p class="guide-hd__brand"><i class="bi bi-universal-access-circle" aria-hidden="true"></i>無障礙內容產生器</p>
+    <a class="btn btn-sm guide-hd__back" href="index.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> 回到工具</a>
+  </div>
+</header>
+
+<div class="guide">
+  <nav class="guide-toc" aria-labelledby="tocTitle">
+    <h2 class="guide-toc__title" id="tocTitle">本頁目錄</h2>
+    <ol class="guide-toc__list">
+      <li><a href="#about">這個工具能做什麼</a></li>
+      <li><a href="#quick">五個步驟快速上手</a></li>
+      <li><a href="#layout">認識畫面</a></li>
+      <li><a href="#start">放入內容</a></li>
+      <li><a href="#edit">編輯區塊</a></li>
+      <li><a href="#audit">看懂無障礙檢測</a></li>
+      <li><a href="#style">樣式設定</a></li>
+      <li><a href="#output">產生原始碼並貼到後台</a></li>
+      <li><a href="#save">存草稿與我的範本</a></li>
+      <li><a href="#mobile">用手機或平板操作</a></li>
+      <li><a href="#faq">常見問題</a></li>
+    </ol>
+  </nav>
+
+  <main class="guide-main" id="main">
+    <h1 class="guide-title">使用說明</h1>
+    <p class="guide-lead">不需要懂 HTML，跟著這份說明，就能做出符合無障礙規範的公告、活動或招生內容，再貼到網站後台。</p>
+
+    <!-- 這個工具能做什麼 -->
+    <section class="guide-sec" id="about" aria-labelledby="h-about">
+      <h2 id="h-about">這個工具能做什麼</h2>
+      <p>網站後台的文章編輯器（CKEditor）可以貼上 HTML 原始碼。這個工具幫你把內容排好，並自動檢查是否符合 WCAG 2.1 無障礙規範，最後產生可以直接貼上的原始碼。</p>
+      <ul>
+        <li>用點選、填欄位的方式，編排標題、段落、表格、按鈕、檔案下載等內容。</li>
+        <li>每個區塊都會即時顯示是否合規，紅燈就是一定要修正的地方。</li>
+        <li>可以從 67 套現成範本開始，也可以把 Word 文件直接匯入。</li>
+      </ul>
+      <div class="guide-note guide-note--warn">
+        <p class="guide-note__title"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>注意：工具不會自動儲存</p>
+        <p>關閉或重新整理網頁，畫布上的內容就會消失。做到一半要離開，請先按右上角「存草稿」把檔案存到電腦，詳見<a href="#save">存草稿與我的範本</a>。</p>
+      </div>
+      <div class="guide-note">
+        <p class="guide-note__title"><i class="bi bi-shield-check" aria-hidden="true"></i>提醒：內容不會上傳</p>
+        <p>所有處理都在你的瀏覽器裡完成，輸入的文字和 Word 檔都不會傳到任何伺服器。</p>
+      </div>
+    </section>
+
+    <!-- 快速上手 -->
+    <section class="guide-sec" id="quick" aria-labelledby="h-quick">
+      <h2 id="h-quick">五個步驟快速上手</h2>
+      <ol class="guide-steps">
+        <li class="guide-steps__item"><strong>挑一套範本</strong>：按左側「瀏覽範本庫」，找到接近的版型，按「加到版面」。</li>
+        <li class="guide-steps__item"><strong>改成你的內容</strong>：點中間畫布上的區塊，在右側「屬性」分頁修改文字。</li>
+        <li class="guide-steps__item"><strong>填入圖片與檔案網址</strong>：先把圖片、檔案上傳到網站後台的媒體庫，再把網址貼回工具；圖片記得寫替代文字。</li>
+        <li class="guide-steps__item"><strong>把紅燈修完</strong>：到右側「檢測」分頁照著提示修正，直到顯示「符合 WCAG 2.1 AA」。</li>
+        <li class="guide-steps__item"><strong>產生原始碼貼到後台</strong>：按右上角「產生原始碼」→「複製原始碼」，到後台編輯器切換成「原始碼」檢視貼上，再儲存。</li>
+      </ol>
+    </section>
+
+    <!-- 認識畫面 -->
+    <section class="guide-sec" id="layout" aria-labelledby="h-layout">
+      <h2 id="h-layout">認識畫面</h2>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-overview.webp" type="image/webp">
+          <img src="images/guide/guide-overview.png" alt="工具畫面，以橘色框標出四個區域：1 上方工具列、2 左側加入區塊與常用版型、3 中間畫布、4 右側設定與檢測" loading="lazy">
+        </picture>
+        <figcaption>工具畫面的四個區域</figcaption>
+      </figure>
+      <ol class="guide-legend">
+        <li><strong>上方工具列</strong>：AA／AAA 檢測等級切換，以及使用說明、全部清空、匯入 Word、存草稿、讀草稿、產生原始碼。</li>
+        <li><strong>左側面板</strong>：「加入區塊」一次加入一個區塊；「常用版型」有「瀏覽範本庫」按鈕與常用版型清單。</li>
+        <li><strong>中間畫布</strong>：即時預覽編排結果，每個區塊左上角有檢測燈號。</li>
+        <li><strong>右側面板</strong>：「屬性」修改選取的區塊、「檢測」列出要修正的問題、「樣式」調整標題層級與主題色。</li>
+      </ol>
+    </section>
+
+    <!-- 放入內容 -->
+    <section class="guide-sec" id="start" aria-labelledby="h-start">
+      <h2 id="h-start">放入內容</h2>
+      <p>剛打開工具時，畫布中間會顯示起始說明。可以直接按「從版型開始」「匯入 Word 文件」「加入單一區塊」，或按「載入範例看看效果」先試試看。</p>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-empty.webp" type="image/webp">
+          <img src="images/guide/guide-empty.png" alt="畫布空白時的起始畫面，中間列出放入內容、填寫並修正、複製原始碼三個步驟，以及從版型開始、匯入 Word 文件、加入單一區塊等按鈕" loading="lazy">
+        </picture>
+        <figcaption>剛打開工具時的畫面</figcaption>
+      </figure>
+
+      <h3 id="h-library">方法一：從範本庫開始（最快）</h3>
+      <ol>
+        <li>按左側「瀏覽範本庫」。</li>
+        <li>用上方的「單位類型」與「內容主題」篩選，例如「學校」加「招生報名」。</li>
+        <li>看卡片上的縮圖與說明，找到合適的範本。</li>
+        <li>按「加到版面」：範本會接在畫布現有內容的後面；按「取代全部」：畫布原有內容會被清掉，換成這套範本。</li>
+      </ol>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-library.webp" type="image/webp">
+          <img src="images/guide/guide-library.png" alt="範本庫視窗，上方有單位類型與內容主題篩選按鈕，下方以卡片列出範本縮圖、名稱、檢測結果，以及加到版面與取代全部按鈕" loading="lazy">
+        </picture>
+        <figcaption>範本庫</figcaption>
+      </figure>
+      <p>每張卡片下方會顯示檢測結果：</p>
+      <ul>
+        <li><strong>「AA 通過・素材待填 2 項」</strong>：範本本身沒問題，套用後還要填入圖片、檔案或連結的網址，以及圖片的替代文字。</li>
+        <li><strong>「尚有 1 項須修正」</strong>：通常是切換到 AAA 等級後，主題色的按鈕對比不夠，到右側「樣式」分頁把主題色調深即可。</li>
+      </ul>
+      <p>畫布已經有內容時按「取代全部」，卡片上會先跳出確認，可以選「確定取代」「先存草稿再取代」或「取消」。</p>
+      <figure class="guide-fig guide-fig--narrow">
+        <picture>
+          <source srcset="images/guide/guide-replace-confirm.webp" type="image/webp">
+          <img src="images/guide/guide-replace-confirm.png" alt="範本卡片按下取代全部後，顯示畫布上的區塊會被刪除、無法復原，並有確定取代、先存草稿再取代、取消三個按鈕" loading="lazy">
+        </picture>
+        <figcaption>取代全部前的確認</figcaption>
+      </figure>
+
+      <h3 id="h-quickadd">方法二：常用版型或單一區塊</h3>
+      <ul>
+        <li><strong>常用版型</strong>：在左側「單位類型」下拉選單選擇單位，點下方的版型名稱，整套版型就會加到畫布最後面。</li>
+        <li><strong>加入區塊</strong>：左側上方有 13 種區塊（標題、段落、表格等），點一下就會加到畫布最後面。</li>
+      </ul>
+
+      <h3 id="h-word">方法三：匯入 Word 文件</h3>
+      <ol>
+        <li>按上方工具列「匯入 Word」。</li>
+        <li>選一種方式放入內容：
+          <ul>
+            <li>「貼上內容」分頁：在 Word 按 <kbd>Ctrl</kbd>＋<kbd>A</kbd> 全選、<kbd>Ctrl</kbd>＋<kbd>C</kbd> 複製，點進框框按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上（Mac 請把 Ctrl 換成 ⌘）。</li>
+            <li>「上傳檔案」分頁：選擇 .docx 檔案。舊版 .doc 請先在 Word 另存為 .docx。</li>
+          </ul>
+        </li>
+        <li>在「匯入方式」選「加在現有內容後面」或「取代全部內容」。</li>
+        <li>按「開始匯入」。</li>
+      </ol>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-import.webp" type="image/webp">
+          <img src="images/guide/guide-import.png" alt="匯入 Word 內容視窗，有貼上內容與上傳檔案兩個分頁、貼上框，以及加在現有內容後面或取代全部內容的選項" loading="lazy">
+        </picture>
+        <figcaption>匯入 Word 內容</figcaption>
+      </figure>
+      <div class="guide-note guide-note--warn">
+        <p class="guide-note__title"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>注意：匯入後請檢查以下幾點</p>
+        <ul>
+          <li>圖片不會一起匯入，請上傳到後台媒體庫後，到圖片區塊填入網址。</li>
+          <li>表格的「表格標題 caption」會是空的，一定要補上。</li>
+          <li>Word 裡粗體的短句可能會被當成標題，請確認標題層級是否正確。</li>
+          <li>合併儲存格會自動轉換，請核對表格欄位有沒有對齊。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 編輯區塊 -->
+    <section class="guide-sec" id="edit" aria-labelledby="h-edit">
+      <h2 id="h-edit">編輯區塊</h2>
+
+      <h3 id="h-blockbar">選取、排列與刪除</h3>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-block.webp" type="image/webp">
+          <img src="images/guide/guide-block.png" alt="畫布上的按鈕連結區塊，左上角為紅色燈號與區塊名稱，右上角為上移、下移、複製、刪除按鈕" loading="lazy">
+        </picture>
+        <figcaption>區塊上方的燈號與工具按鈕</figcaption>
+      </figure>
+      <ul>
+        <li><strong>修改內容</strong>：點區塊的內容，右側「屬性」分頁會出現這個區塊的設定欄位，修改後畫布會即時更新。</li>
+        <li><strong>調整順序</strong>：按區塊右上角的 <i class="bi bi-arrow-up guide-ico" aria-hidden="true"></i> 上移、<i class="bi bi-arrow-down guide-ico" aria-hidden="true"></i> 下移；也可以按住左上角的區塊名稱拖曳。</li>
+        <li><strong>複製</strong>：按 <i class="bi bi-files guide-ico" aria-hidden="true"></i> 複製，會在下方多出一個一模一樣的區塊。</li>
+        <li><strong>刪除</strong>：按 <i class="bi bi-trash3 guide-ico" aria-hidden="true"></i> 刪除。刪除後無法復原。</li>
+        <li><strong>燈號</strong>：區塊左上角的圓點，綠色代表通過、黃色代表有建議、紅色代表一定要修正。</li>
+      </ul>
+
+      <h3 id="h-blocks">各種區塊怎麼填</h3>
+      <div class="guide-table">
+        <table class="table table-bordered align-middle">
+          <caption>13 種區塊的用途與填寫重點</caption>
+          <thead>
+            <tr><th scope="col">區塊</th><th scope="col">用途</th><th scope="col">填寫重點</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">標題</th><td>段落的大標、中標、小標</td><td>依內容階層選「段落大標／中標／小標」，不可以從大標直接跳到小標。</td></tr>
+            <tr><th scope="row">段落</th><td>一般內文</td><td>可設定粗體、斜體、插入連結。不要用換行或空白鍵排版；條列內容請改用「清單」。</td></tr>
+            <tr><th scope="row">清單</th><td>條列項目</td><td>一行一個項目；有先後順序時，勾選「改為有順序的清單」。</td></tr>
+            <tr><th scope="row">圖片</th><td>單張圖片</td><td>填圖片網址與替代文字；純裝飾的圖片勾選「這是純裝飾用圖片」。</td></tr>
+            <tr><th scope="row">圖文並排</th><td>圖片搭配小標與說明</td><td>可選圖片位置、圖文比例，也可以加一顆按鈕。</td></tr>
+            <tr><th scope="row">表格</th><td>時程、費用、名單等資料</td><td>一定要填「表格標題 caption」，詳見<a href="#h-table">表格怎麼填</a>。</td></tr>
+            <tr><th scope="row">按鈕連結</th><td>前往報名、前往系統</td><td>按鈕文字要寫出目的地，例如「前往線上報名系統」，不要只寫「點這裡」。</td></tr>
+            <tr><th scope="row">檔案下載</th><td>簡章、表單下載</td><td>填檔案名稱、網址、格式（例如 PDF、ODT）與大小。</td></tr>
+            <tr><th scope="row">提示方塊</th><td>注意事項、截止提醒</td><td>選擇類型「提醒／注意／完成」，文字開頭會自動加上類型字樣。</td></tr>
+            <tr><th scope="row">常見問答</th><td>FAQ</td><td>一題填一組問題與答案；如果後台不支援可展開的樣式，改選「標題＋段落」。</td></tr>
+            <tr><th scope="row">引言</th><td>引用某人說的話</td><td>填引言內容與資料來源。</td></tr>
+            <tr><th scope="row">影音</th><td>YouTube、Vimeo 影片</td><td>貼上影片網址並填影片標題；AAA 等級一定要附文字稿。</td></tr>
+            <tr><th scope="row">分隔線</th><td>視覺上的分隔</td><td>只是裝飾，內容分段仍要用標題。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="h-table">表格怎麼填</h3>
+      <figure class="guide-fig guide-fig--narrow">
+        <picture>
+          <source srcset="images/guide/guide-inspector-table.webp" type="image/webp">
+          <img src="images/guide/guide-inspector-table.png" alt="表格區塊的屬性設定，包含表格標題 caption、標題方向、標題欄位與表格內容欄位" loading="lazy">
+        </picture>
+        <figcaption>表格區塊的設定欄位</figcaption>
+      </figure>
+      <ul>
+        <li><strong>表格標題 caption</strong>：用一句話說明這張表在講什麼，例如「115 學年度招生重要時程」。這一欄必填。</li>
+        <li><strong>標題方向</strong>：最上面一列是欄位名稱，選「第一列是標題」；像「項目｜內容」這種最左邊一欄是名稱的表格，選「第一欄是標題」；兩種都有就選「兩者皆是」。</li>
+        <li><strong>標題欄位</strong>：欄位名稱之間用半形直線「|」分隔。</li>
+        <li><strong>表格內容</strong>：一行代表一列，欄位一樣用「|」分隔，每一列的欄位數要和標題欄位一樣多。</li>
+      </ul>
+      <p class="guide-label">「標題欄位」填寫範例</p>
+      <pre class="guide-code"><code>階段 | 日期 | 說明</code></pre>
+      <p class="guide-label">「表格內容」填寫範例</p>
+      <pre class="guide-code"><code>網路報名 | 4 月 1 日至 4 月 30 日 | 逾期不受理
+資料審查 | 5 月 10 日至 5 月 20 日 |
+放榜公告 | 5 月 30 日 | 公告於本校網站</code></pre>
+
+      <h4 id="h-merge">合併儲存格</h4>
+      <p>在要被合併掉的格子裡填記號：<code>&lt;</code> 表示和左邊的格子合併，<code>^</code> 表示和上面的格子合併。</p>
+      <pre class="guide-code"><code>08:30–09:00 | 報到 | &lt;
+09:00–09:20 | 開幕致詞 | 校長</code></pre>
+      <p>上面的例子中，「報到」會橫跨兩欄。從 Word 匯入的合併儲存格，也會自動轉成這兩個記號。</p>
+
+      <h3 id="h-media">圖片、檔案網址與替代文字</h3>
+      <p>工具不能直接上傳圖片或檔案，請依照下列順序處理：</p>
+      <ol>
+        <li>到網站後台的媒體庫上傳圖片或檔案。</li>
+        <li>複製檔案網址（通常是 https:// 開頭）。</li>
+        <li>回到工具，貼到區塊的「圖片網址」或「網址」欄位。</li>
+      </ol>
+      <p>還沒填網址時，畫布會先顯示灰色示意圖方便排版，產生的原始碼不會包含示意圖。</p>
+      <p><strong>替代文字（alt）</strong>是念給看不到圖片的人聽的說明，例如使用螢幕報讀軟體的視障者。請描述這張圖片「傳達了什麼」：</p>
+      <div class="guide-table">
+        <table class="table table-bordered align-middle">
+          <caption>替代文字的寫法比較</caption>
+          <thead>
+            <tr><th scope="col">不好的寫法</th><th scope="col">好的寫法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>圖片</td><td>校長頒獎給三位得獎學生</td></tr>
+            <tr><td>IMG_2031.jpg</td><td>運動會大隊接力決賽，六年級選手衝過終點線</td></tr>
+            <tr><td>照片：活動照片</td><td>志工在社區活動中心為長者量血壓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>如果圖片只是裝飾，旁邊的文字已經說明完整，就勾選「這是純裝飾用圖片」，螢幕報讀軟體會直接略過。</p>
+    </section>
+
+    <!-- 看懂無障礙檢測 -->
+    <section class="guide-sec" id="audit" aria-labelledby="h-audit">
+      <h2 id="h-audit">看懂無障礙檢測</h2>
+      <figure class="guide-fig guide-fig--narrow">
+        <picture>
+          <source srcset="images/guide/guide-audit.webp" type="image/webp">
+          <img src="images/guide/guide-audit.png" alt="檢測分頁，上方顯示分數與尚有 4 項必須修正，下方逐條列出檢測項目，包含一則說明與四則缺少網址的錯誤" loading="lazy">
+        </picture>
+        <figcaption>右側「檢測」分頁</figcaption>
+      </figure>
+      <ul>
+        <li><strong>分數與結果</strong>：最上方顯示分數，以及「符合 WCAG 2.1 AA」或「尚有 N 項必須修正」。</li>
+        <li><strong>錯誤（紅色 <i class="bi bi-x-circle-fill" aria-hidden="true"></i> 圖示）</strong>：一定要修正，否則不符合無障礙規範。</li>
+        <li><strong>建議（黃色 <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> 圖示）</strong>：建議修正，可以讓內容更容易閱讀。</li>
+        <li><strong>說明（綠色 <i class="bi bi-info-circle-fill" aria-hidden="true"></i> 圖示）</strong>：告訴你工具自動幫你處理了什麼，不需要修改。</li>
+        <li><strong>跳到問題區塊</strong>：點任一個項目，畫布會捲到對應的區塊，右側也會切回「屬性」讓你直接修改。</li>
+        <li><strong>分頁標籤上的數字</strong>：代表目前錯誤加建議的總數。</li>
+      </ul>
+
+      <h3 id="h-level">AA 還是 AAA？</h3>
+      <p>上方工具列可以切換檢測等級。一般以 <strong>AA</strong> 為標準；AAA 的要求更嚴格，例如按鈕對比要達到 7:1、影音一定要附文字稿。沒有特別規定時，選 AA 即可。</p>
+
+      <h3 id="h-fix">常見問題怎麼修</h3>
+      <div class="guide-table">
+        <table class="table table-bordered align-middle">
+          <caption>常見檢測訊息與修正方式</caption>
+          <thead>
+            <tr><th scope="col">檢測訊息</th><th scope="col">怎麼修</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>圖片還沒有網址／檔案缺少網址</td><td>把圖片或檔案上傳到後台媒體庫，複製網址貼回欄位。</td></tr>
+            <tr><td>圖片缺少替代文字（alt）</td><td>在「替代文字 alt」描述圖片內容；純裝飾的圖片勾選「這是純裝飾用圖片」。</td></tr>
+            <tr><td>表格缺少標題（caption）</td><td>在表格的「表格標題 caption」寫一句說明。</td></tr>
+            <tr><td>標題階層從 H3 跳到 H5，中間不可跳階</td><td>補上中間缺少的標題，或把該標題的層級改成「中標」。</td></tr>
+            <tr><td>連結文字「這裡」看不出目的地</td><td>改成具體的描述，例如「下載 115 年招生簡章」。</td></tr>
+            <tr><td>按鈕底色與白字對比只有 X:1</td><td>到「樣式」分頁把主題色調深，直到對比顯示通過。</td></tr>
+            <tr><td>影片缺少標題</td><td>在影音區塊填寫「影片標題」。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="guide-note">
+        <p class="guide-note__title"><i class="bi bi-info-circle-fill" aria-hidden="true"></i>提醒：檢測通過不等於寫得好</p>
+        <p>工具可以檢查替代文字「有沒有填」，但無法判斷內容「寫得對不對」。替代文字、連結文字是否恰當，仍需要人工確認。</p>
+      </div>
+    </section>
+
+    <!-- 樣式設定 -->
+    <section class="guide-sec" id="style" aria-labelledby="h-style">
+      <h2 id="h-style">樣式設定</h2>
+      <figure class="guide-fig guide-fig--narrow">
+        <picture>
+          <source srcset="images/guide/guide-style.webp" type="image/webp">
+          <img src="images/guide/guide-style.png" alt="樣式分頁，包含內文起始標題層級、同時輸出標題與內文樣式、主題色與對比檢查結果" loading="lazy">
+        </picture>
+        <figcaption>右側「樣式」分頁</figcaption>
+      </figure>
+      <ul>
+        <li><strong>內文起始標題層級</strong>：後台的頁面標題通常已經是 H1、單元名稱是 H2，所以預設從 H3 開始。不確定時請維持「H3 起」，或詢問網站管理人員。</li>
+        <li><strong>同時輸出標題與內文樣式</strong>：勾選後，標題會帶有字級、色塊等樣式。貼到後台後如果和網站原本的樣式衝突，取消勾選即可。</li>
+        <li><strong>主題色</strong>：按鈕與提示方塊的顏色。下方會顯示白字對比是否通過 AA／AAA，請選擇有通過的顏色。</li>
+      </ul>
+    </section>
+
+    <!-- 產生原始碼 -->
+    <section class="guide-sec" id="output" aria-labelledby="h-output">
+      <h2 id="h-output">產生原始碼並貼到後台</h2>
+      <ol>
+        <li>按右上角「產生原始碼」。如果視窗上方出現紅色的「還有 N 項必須修正」，建議先回去修正。</li>
+        <li>選擇「輸出方式」，不確定就用預設的「純語義（建議）」。</li>
+        <li>按「複製原始碼」。</li>
+        <li>到網站後台的文章編輯器，點「原始碼」或「Source」按鈕，切換到程式碼檢視。</li>
+        <li>貼上原始碼，切回一般檢視確認畫面，然後儲存。</li>
+      </ol>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-code.webp" type="image/webp">
+          <img src="images/guide/guide-code.png" alt="原始碼視窗，上方為檢測提示、輸出方式選單、複製原始碼與下載按鈕，下方為 HTML 原始碼" loading="lazy">
+        </picture>
+        <figcaption>原始碼視窗</figcaption>
+      </figure>
+      <div class="guide-table">
+        <table class="table table-bordered align-middle">
+          <caption>三種輸出方式怎麼選</caption>
+          <thead>
+            <tr><th scope="col">輸出方式</th><th scope="col">適合的情況</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">純語義（建議）</th><td>大多數情況。只輸出標籤，外觀跟著網站原本的樣式。</td></tr>
+            <tr><th scope="row">內嵌樣式</th><td>貼上後畫面沒有層次、按鈕看起來不像按鈕時使用。每個標籤自帶樣式，外觀最穩定。</td></tr>
+            <tr><th scope="row">類別＋樣式表</th><td>網站管理人員指定時使用。要把下方的 CSS 區塊一起貼在 HTML 最前面。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>也可以按「下載」把原始碼存成 .html 檔案，交給網站管理人員。</p>
+    </section>
+
+    <!-- 存草稿與我的範本 -->
+    <section class="guide-sec" id="save" aria-labelledby="h-save">
+      <h2 id="h-save">存草稿與我的範本</h2>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-appbar.webp" type="image/webp">
+          <img src="images/guide/guide-appbar.png" alt="上方工具列，由左至右為工具名稱、AA 與 AAA 檢測等級切換，以及使用說明、全部清空、匯入 Word、存草稿、讀草稿、產生原始碼按鈕" loading="lazy">
+        </picture>
+        <figcaption>上方工具列</figcaption>
+      </figure>
+
+      <h3 id="h-draft">存草稿、讀草稿</h3>
+      <ul>
+        <li><strong>存草稿</strong>：按「存草稿」會下載一個 draft.json 檔案到電腦（通常在「下載」資料夾），建議改成好辨認的檔名，例如「115 招生公告.json」。</li>
+        <li><strong>讀草稿</strong>：按「讀草稿」，選擇之前存的 .json 檔案，就能接著編輯。讀草稿會取代畫布上目前的內容。</li>
+        <li><strong>全部清空</strong>：會刪除畫布上所有區塊且無法復原；確認視窗中可以選「先存草稿再清空」。</li>
+      </ul>
+
+      <h3 id="h-mytpl">我的範本</h3>
+      <p>常用的版面可以存成自己的範本，下次直接套用：</p>
+      <ol>
+        <li>在畫布上排好版面。</li>
+        <li>按「瀏覽範本庫」，在視窗最下方輸入範本名稱，按「存成我的範本」。</li>
+        <li>之後在範本庫的「單位類型」選「我的範本」，就能找到並套用。</li>
+      </ol>
+      <figure class="guide-fig">
+        <picture>
+          <source srcset="images/guide/guide-my-template.webp" type="image/webp">
+          <img src="images/guide/guide-my-template.png" alt="範本庫視窗下方的「把目前畫布存成我的範本」名稱欄位與存成我的範本按鈕" loading="lazy">
+        </picture>
+        <figcaption>把目前畫布存成我的範本</figcaption>
+      </figure>
+      <div class="guide-note guide-note--warn">
+        <p class="guide-note__title"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>注意：我的範本也要存草稿才會保留</p>
+        <p>我的範本會和畫布內容一起存進草稿檔。關閉網頁前沒有存草稿，自訂範本就會消失；下次按「讀草稿」載入同一個檔案，我的範本就會回來。</p>
+      </div>
+    </section>
+
+    <!-- 手機或平板 -->
+    <section class="guide-sec" id="mobile" aria-labelledby="h-mobile">
+      <h2 id="h-mobile">用手機或平板操作</h2>
+      <p>螢幕較窄時，左右兩側的面板會收起來，改用畫面最下方的兩顆按鈕開啟：</p>
+      <ul>
+        <li><strong>加入區塊</strong>：開啟左側面板，可以加入區塊、瀏覽範本庫或套用常用版型。</li>
+        <li><strong>設定／檢測</strong>：開啟右側面板，修改區塊內容與查看檢測結果。</li>
+      </ul>
+      <p>點選畫布上的區塊時，右側面板會自動開啟。內容較長時，建議還是用電腦編輯。</p>
+      <figure class="guide-fig guide-fig--narrow">
+        <picture>
+          <source srcset="images/guide/guide-mobile.webp" type="image/webp">
+          <img src="images/guide/guide-mobile.png" alt="手機寬度的工具畫面，畫面最下方有加入區塊與設定／檢測兩顆按鈕" loading="lazy">
+        </picture>
+        <figcaption>手機上的畫面</figcaption>
+      </figure>
+    </section>
+
+    <!-- 常見問題 -->
+    <section class="guide-sec" id="faq" aria-labelledby="h-faq">
+      <h2 id="h-faq">常見問題</h2>
+      <details class="guide-faq">
+        <summary>不小心關掉網頁，內容還找得回來嗎？</summary>
+        <p>找不回來。工具不會自動儲存，請養成隨時按「存草稿」的習慣。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>刪除區塊或按了「取代全部」，可以復原嗎？</summary>
+        <p>不行，工具沒有復原功能。要做大幅修改前，建議先存草稿。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>貼到後台後，畫面和工具裡看到的不一樣？</summary>
+        <p>工具畫布一律帶樣式預覽，「純語義」輸出則會跟著網站原本的樣式顯示。需要和工具裡相同的外觀時，產生原始碼時改選「內嵌樣式」。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>後台儲存後，常見問答的展開效果不見了？</summary>
+        <p>部分後台會過濾掉可展開的標籤。請到常見問答區塊，把「呈現方式」改成「標題＋段落」，再重新產生原始碼。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>表格的「|」要怎麼打？</summary>
+        <p>請切換到英文輸入，按住 <kbd>Shift</kbd> 再按 Enter 上方的「\」鍵。全形的「｜」不會被當成欄位分隔符號。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>Word 裡的圖片為什麼沒有匯入？</summary>
+        <p>圖片必須放在網站後台才能正常顯示。請把圖片上傳到後台媒體庫，再到工具的圖片區塊填入網址與替代文字。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>「素材待填」是什麼意思？</summary>
+        <p>範本裡的圖片、檔案、連結網址與圖片替代文字，要換成你實際的素材才能填寫，所以先標示為待填。套用範本後填好，檢測就會通過。</p>
+      </details>
+      <details class="guide-faq">
+        <summary>檢測全部通過，就代表整個網頁都符合無障礙嗎？</summary>
+        <p>不一定。工具只檢查這份內容裡的常見項目，例如替代文字、標題層級、表格標題與連結文字。網站的選單、版型、表單等是否合規，仍需要由網站管理單位另外檢測。</p>
+      </details>
+    </section>
+  </main>
+</div>
+
+<footer class="guide-ft">
+  <p>還有其他問題，請洽詢單位的網站管理人員。<a href="index.html">回到無障礙內容產生器</a></p>
+</footer>
+</body>
+</html>

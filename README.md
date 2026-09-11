@@ -33,6 +33,10 @@ ck-a11y-generator/
 ├── index.html   ← 只放 HTML 結構（工具列、面板、對話框），不含 <style> 與 inline script
 ├── style.css    ← 工具介面樣式（載入順序在 Bootstrap 之後，才能覆寫）
 ├── main.js      ← 全部程式邏輯：資料模型、HTML 產生、無障礙檢測、範本庫、Word 匯入、草稿存讀
+├── guide.html   ← 使用說明頁（給編輯人員看的操作文件），工具列「使用說明」另開新視窗連到此頁
+├── guide.css    ← 使用說明頁樣式
+├── images/
+│   └── guide/   ← 使用說明截圖（.webp＋.png 備援，以 <picture> 載入）
 └── README.md
 ```
 
@@ -105,7 +109,7 @@ ck-a11y-generator/
 ## 五、部署方式
 
 ```bash
-git add index.html style.css main.js
+git add index.html style.css main.js guide.html guide.css images/guide
 git commit -m "更新內容"
 git push
 ```
@@ -113,6 +117,8 @@ git push
 Push 後 GitHub Pages 會在 1–2 分鐘內自動重新部署，網址不變。
 
 > `index.html`、`style.css`、`main.js` 三個檔案必須一起部署。少了 `style.css` 畫面會沒有樣式；少了 `main.js` 所有功能都無法運作。
+>
+> 使用說明頁網址：https://huaiyingwang.github.io/ck-a11y-generator/guide.html 。工具介面有改動時，記得同步更新 `guide.html` 的說明文字與 `images/guide/` 截圖。
 
 ---
 
